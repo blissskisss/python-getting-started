@@ -2,8 +2,25 @@ from django.shortcuts import render
 
 from .models import Greeting
 
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+
+
+
+
 # Create your views here.
 
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def receive_signal(request):
+    # Here, you can process the request data
+    data = request.POST.get('data', '')
+    print("Data received:", data)
+    # Perform actions based on the data received
+    
+    return JsonResponse({"status": "success", "message": "Signal received successfully"})
 
 def index(request):
     return render(request, "index.html")
